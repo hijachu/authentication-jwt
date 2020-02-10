@@ -1,14 +1,16 @@
 
+import { Injectable } from '@angular/core';
 import {
-  HttpClient, HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS
+  HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS
 } from '@angular/common/http';
-import { HttpTestingController } from '@angular/common/http/testing';
 
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
-
+@Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+
+  constructor() { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // original
@@ -28,7 +30,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (request.url.endsWith('/api/authenticate') && request.method === 'Post') {
 
         if (request.body.email === 'mosh@domain.com' && request.body.password === '1234') {
-          request.body['token'] = token;
+          // request.body['token'] = token;
+          // const newRequest = request.clone({ setHeaders: {Authorization: 'Bearer 12345
           return of(new HttpResponse({ status: 200, body: request.body }));
         }
         else {
@@ -54,10 +57,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     }))
 
-    // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
-    .pipe(materialize())
-    .pipe(delay(500))
-    .pipe(dematerialize());
+      // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
+      .pipe(materialize())
+      .pipe(delay(500))
+      .pipe(dematerialize());
   }
 }
 
