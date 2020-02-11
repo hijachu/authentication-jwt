@@ -27,12 +27,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       //
       // Fake implementation of /api/authenticate
       //
-      if (request.url.endsWith('/api/authenticate') && request.method === 'Post') {
+      if (request.url.endsWith('/api/authenticate') && request.method === 'POST') {
 
-        if (request.body.email === 'mosh@domain.com' && request.body.password === '1234') {
-          // request.body['token'] = token;
-          // const newRequest = request.clone({ setHeaders: {Authorization: 'Bearer 12345
-          return of(new HttpResponse({ status: 200, body: request.body }));
+        console.log(request.body);
+        let requestBody = JSON.parse(request.body);
+        console.log(requestBody);
+        if (requestBody.email === 'mosh@domain.com' && requestBody.password === '1234') {
+          requestBody['token'] = token;
+          return of(new HttpResponse({ status: 200, body: requestBody }));
         }
         else {
           // else return 400 bad request
@@ -43,7 +45,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       //
       // Fake implementation of /api/orders
       //
-      if (request.url.endsWith('/api/orders') && request.method === 'Get') {
+      if (request.url.endsWith('/api/orders') && request.method === 'GET') {
         if (request.headers.get('Authorization') === 'Bearer ' + token) {
           return of(new HttpResponse({ status: 200, body: [1, 2, 3] }));
         }
