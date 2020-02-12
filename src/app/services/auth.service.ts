@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 import { map } from "rxjs/operators";
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) {
+  constructor(
+    // public jwtHelper: JwtHelperService,
+    private http: HttpClient) {
   }
 
   login(credentials) {
@@ -27,7 +30,21 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return false;
+
+    // return !this.jwtHelper.isTokenExpired();
+
+
+    let jwtHelper = new JwtHelperService();
+    let token = localStorage.getItem('token');
+
+    // it can handle token is null automatically
+    let expirationDate = jwtHelper.getTokenExpirationDate(token);
+    // console.log("Expiration Date", expirationDate);
+
+    let isExpired = jwtHelper.isTokenExpired(token);
+    // console.log("isExpired", isExpired);
+
+    return !isExpired;
   }
 }
 
