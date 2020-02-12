@@ -14,10 +14,12 @@ export class AuthService {
       .pipe(
         map(response => {
           console.log(response);
-          if (response) return true;
-          else return false;
-        })
-      );
+          if (response && response['token']) {
+            localStorage.setItem('token', response['token']);
+            return true;
+          }
+          return false;
+        }));
   }
 
   logout() {

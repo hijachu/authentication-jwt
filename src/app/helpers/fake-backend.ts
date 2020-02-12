@@ -28,7 +28,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       // Fake implementation of /api/authenticate
       //
       if (request.url.endsWith('/api/authenticate') && request.method === 'POST') {
-
         console.log(request.body);
         let requestBody = JSON.parse(request.body);
         console.log(requestBody);
