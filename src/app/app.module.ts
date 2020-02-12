@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: AdminComponent
+    component: AdminComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -54,10 +56,11 @@ const routes: Routes = [
   providers: [
     OrderService,
     AuthService,
+    AuthGuard,
 
+    // for creating a mock back-end.
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
     fakeBackendProvider,
   ],
   bootstrap: [AppComponent]
