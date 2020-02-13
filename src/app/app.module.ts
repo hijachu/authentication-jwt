@@ -17,6 +17,8 @@ import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuard } from './services/auth-guard.service';
+import { AdminAuthGuard } from './services/admin-auth-guard.service';
+import { NoAccessComponent } from './no-access/no-access.component';
 
 
 const routes: Routes = [
@@ -27,11 +29,15 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [ AuthGuard ]
+    canActivate: [ AuthGuard, AdminAuthGuard ]
   },
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'no-access',
+    component: NoAccessComponent
   },
   {
     path: '**',
@@ -45,6 +51,7 @@ const routes: Routes = [
     HomeComponent,
     AdminComponent,
     LoginComponent,
+    NoAccessComponent,
     NotFoundComponent
   ],
   imports: [
@@ -57,6 +64,7 @@ const routes: Routes = [
     OrderService,
     AuthService,
     AuthGuard,
+    AdminAuthGuard,
 
     // for creating a mock back-end.
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
