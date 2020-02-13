@@ -67,7 +67,7 @@ const routes: Routes = [
     AdminAuthGuard,
 
     // for creating a mock back-end.
-    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     fakeBackendProvider,
   ],
