@@ -14,7 +14,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // admin true
-    let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZX0.iy8az1ZDe-_hS8GLDKsQKgPHvWpHl0zkQBqy1QIPOkA';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZX0.iy8az1ZDe-_hS8GLDKsQKgPHvWpHl0zkQBqy1QIPOkA';
 
     // admin false
     // let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6ZmFsc2V9.DLTdOwxPMgCsXA9p2WDJvwimoQvL2Q6Yyn_sm6B4KRE';
@@ -26,16 +26,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       //
       if (request.url.endsWith('/api/authenticate') && request.method === 'POST') {
         // console.log(request.body);
-        
-        let requestBody = JSON.parse(request.body);
+
+        const requestBody = JSON.parse(request.body);
         // console.log(requestBody);
 
         if (requestBody.email === 'mosh@domain.com' && requestBody.password === '1234') {
           // requestBody['token'] = token;
           // return of(new HttpResponse({ status: 200, body: requestBody }));
-          return of(new HttpResponse({ status: 200, body: {token: token} }));
-        }
-        else {
+          return of(new HttpResponse({ status: 200, body: {token} }));
+        } else {
           // else return 400 bad request
           return throwError({ error: { message: 'Username or password is incorrect' } });
         }
@@ -47,8 +46,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (request.url.endsWith('/api/orders') && request.method === 'GET') {
         if (request.headers.get('Authorization') === 'Bearer ' + token) {
           return of(new HttpResponse({ status: 200, body: [1, 2, 3] }));
-        }
-        else {
+        } else {
           // return 401 not authorised if token is null or invalid
           return throwError({ error: { message: 'Unauthorised' } });
         }

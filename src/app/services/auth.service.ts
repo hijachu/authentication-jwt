@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +17,8 @@ export class AuthService {
       .pipe(
         map(response => {
           console.log(response);
-          if (response && response['token']) {
-            localStorage.setItem('token', response['token']);
+          if (response && response.token) {
+            localStorage.setItem('token', response.token);
             return true;
           }
           return false;
@@ -32,22 +32,22 @@ export class AuthService {
   isLoggedIn() {
     // return !this.jwtHelper.isTokenExpired();
 
-    let jwtHelper = new JwtHelperService();
-    let token = localStorage.getItem('token');
+    const jwtHelper = new JwtHelperService();
+    const token = localStorage.getItem('token');
 
     // it can handle token is null automatically
-    let expirationDate = jwtHelper.getTokenExpirationDate(token);
+    const expirationDate = jwtHelper.getTokenExpirationDate(token);
     // console.log("Expiration Date", expirationDate);
 
-    let isExpired = jwtHelper.isTokenExpired(token);
+    const isExpired = jwtHelper.isTokenExpired(token);
     // console.log("isExpired", isExpired);
 
     return !isExpired;
   }
 
   get currentUser() {
-    let token = localStorage.getItem('token');
-    if (!token) return null;
+    const token = localStorage.getItem('token');
+    if (!token) { return null; }
 
     return new JwtHelperService().decodeToken(token);
   }
