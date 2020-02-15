@@ -21,6 +21,7 @@ import { AdminAuthGuard } from './services/admin-auth-guard.service';
 import { NoAccessComponent } from './no-access/no-access.component';
 
 
+
 const routes: Routes = [
   {
     path: '',
@@ -52,7 +53,7 @@ const routes: Routes = [
     AdminComponent,
     LoginComponent,
     NoAccessComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
