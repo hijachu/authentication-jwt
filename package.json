@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --prod",
+    "deploy:firebase": "ng build --prod && firebase deploy",
+    "deploy:gh": "ng build --prod --base-href='https://hijachu.github.io/authentication-jwt/' && ngh --dir=dist/authentication-authorization-ng8"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +25,8 @@
     "@auth0/angular-jwt": "^4.0.0",
     "angular-cli-ghpages": "^0.6.2",
     "bootstrap": "^4.4.1",
+    "express": "^4.17.1",
+    "path": "^0.12.7",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
