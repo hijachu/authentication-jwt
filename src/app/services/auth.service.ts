@@ -15,7 +15,7 @@ export class AuthService {
     return this.http.post('/api/authenticate',
       JSON.stringify(credentials))
       .pipe(
-        map(response => {
+        map((response: any) => {
           console.log(response);
           if (response && response.token) {
             localStorage.setItem('token', response.token);
